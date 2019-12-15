@@ -1,4 +1,4 @@
-# EW_Flightstatus_Cucumber
+# EW - Flight status page - Test automation using cucumber
 
 ## Built with
 * Maven 
@@ -24,7 +24,7 @@ mvn clean test
 ## Test results
 Cucumber HTML report (under projectfolder/cucumber-html-report/index.html)
 
-## Tested Browser
+## Tested Environment
 * OS 
   * Windows
   * Linux
