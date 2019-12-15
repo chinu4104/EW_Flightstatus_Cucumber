@@ -62,8 +62,8 @@ public class Driver {
         driver = e_driver;
         driver.manage().window().maximize();
         driver.manage().deleteAllCookies();
-        driver.manage().timeouts().pageLoadTimeout(20, TimeUnit.SECONDS);
-        driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+        driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
         driver.get(url);
     }
 
@@ -144,6 +144,18 @@ public class Driver {
             return element.getText();
         }
         return null;
+    }
+
+    // Method to verify if webElement is displayed and returns boolean
+    public boolean isElementDisplayed(WebElement element) {
+        scrolltoView(element);
+        return element.isDisplayed();
+    }
+
+    // Method to verify if webElement is selected and returns boolean
+    public boolean isElementSelected(WebElement element) {
+        scrolltoView(element);
+        return element.isSelected();
     }
 
     // Method to Wait for an element to clickable and return the webelement

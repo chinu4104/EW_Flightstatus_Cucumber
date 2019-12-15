@@ -6,9 +6,6 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.Assert;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-
-import java.util.concurrent.TimeUnit;
 
 
 public class SearchFlights extends Driver {
@@ -16,20 +13,36 @@ public class SearchFlights extends Driver {
     private String destinationInput ="//input[@class='destinationName']";
     private String showFlightBtn ="//button[text()='Show flight status'][contains(@class,'SearchSubmit')]";
     private String dateSelectInput ="//div[@class='input-field cmsc-date-picker']//input[@name='date']";
+    private String dateSelectContainer ="//div[@class='input-field cmsc-date-picker']";
     private String resultHeaderDate ="//td[@class='date-head']";
-    private String updateStatusButton ="//button[@class='btn-refresh'][1]";
+    private String updateStatusBtn ="//button[@class='btn-refresh'][1]";
     private String timeStamp ="//p[@class='refresh-date'][1]";
+    private String trackFlightBtn ="//button[text()='Track flight'][1]";
+    private String trackedFlightTable = "//div[@class='flightstatus-result flightstatus-watched']//table//tr[contains(@class,'toggle-head')]";
     private String timeStampBeforeUpdate = null,timeStampAfterUpdate = null;
 
-    @Given("^user open flight status page with browser \"(.*)\"$")
+    @Given("^user opens flight status page in \"(.*)\"$")
     public void openApp(String browser) { launchUrl(browser); }
+
+    @Then("^user verifies the flight status page title - \"(.*)\"$")
+    public void verifyPageTitle(String title){
+        Assert.assertEquals(title,getTitle());
+    }
+
+    @Then("^user verifies departure, destination, travel date and show flight status webelements are displayed$")
+    public void verifyFilterSectionWebElements(){
+        Assert.assertTrue(isElementDisplayed(getClickableElement(departureInput)));
+        Assert.assertTrue(isElementDisplayed(getClickableElement(destinationInput)));
+        Assert.assertTrue(isElementDisplayed(getElement(dateSelectContainer)));
+        Assert.assertTrue(isElementDisplayed(getClickableElement(showFlightBtn)));
+    }
 
     @When("^user enters departure \"(.*)\" and destination \"(.*)\"$")
     public void enterDeptDest(String depLoc, String desLoc){
         enterText(getClickableElement(departureInput),depLoc);
         enterText(getClickableElement(destinationInput),desLoc);
     }
-    @When("^user selects \"(.*)\"$")
+    @When("^user selects travel date - \"(.*)\"$")
     public void selectDate(String date){
         selectDropDownByValue(getElement(dateSelectInput),date);
     }
@@ -43,14 +56,14 @@ public class SearchFlights extends Driver {
     public void searchResultDateVerification(String date){
         Assert.assertEquals(getDateValue(date),getText(getElement(resultHeaderDate)));
     }
-    @Then("^user closes the App")
+    @Then("^user closes the browser")
     public void closeApp(){ closeAllBrowserTab(); }
 
     @Then("^user updates flight status$")
     public void clickUpdateStatus(){
         timeStampBeforeUpdate = getText(getElement(timeStamp));
         waitSeconds(61);
-        clickWebElement(getClickableElement(updateStatusButton));
+        clickWebElement(getClickableElement(updateStatusBtn));
         waitSeconds(2);
         timeStampAfterUpdate = getText(getElement(timeStamp));
     }
@@ -58,5 +71,15 @@ public class SearchFlights extends Driver {
     @Then("^user verifies the updated status$")
     public void updateStatusVerification(){
         Assert.assertNotEquals(timeStampBeforeUpdate,timeStampAfterUpdate);
+    }
+
+    @Then("^user clicks track flight button of the first search result$")
+    public void clickTrackFlightButton(){
+        clickWebElement(getClickableElement(trackFlightBtn));
+    }
+
+    @Then("^user verifies the tracked flights section$")
+    public void verifyTrackedFlightTable(){
+        Assert.assertTrue(isElementDisplayed(getClickableElement(trackedFlightTable)));
     }
 }
