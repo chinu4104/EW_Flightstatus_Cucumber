@@ -18,6 +18,7 @@ git clone git@github.com:chinu4104/EW_Flightstatus_Cucumber.git
 
 ## To test this project
 ```
+cd <<<project directory path>>>
 mvn clean test
 ```
 
