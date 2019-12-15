@@ -29,7 +29,7 @@ public class SearchFlights extends Driver {
         Assert.assertEquals(title,getTitle());
     }
 
-    @Then("^user verifies departure, destination, travel date and show flight status webelements are displayed$")
+    @Then("^user verifies departure, destination, travel date and show flight status webelements$")
     public void verifyFilterSectionWebElements(){
         Assert.assertTrue(isElementDisplayed(getClickableElement(departureInput)));
         Assert.assertTrue(isElementDisplayed(getClickableElement(destinationInput)));
@@ -52,7 +52,7 @@ public class SearchFlights extends Driver {
         clickWebElement(getClickableElement(showFlightBtn));
     }
 
-    @Then("^user flights status should be displayed accordingly and date \"(.*)\" verification should be done$")
+    @Then("^user verifies the search results for user entered date \"(.*)\"$")
     public void searchResultDateVerification(String date){
         Assert.assertEquals(getDateValue(date),getText(getElement(resultHeaderDate)));
     }

@@ -22,10 +22,9 @@ import java.util.NoSuchElementException;
 import java.util.concurrent.TimeUnit;
 
 public class Driver {
-    private final int WAITSECS = 20;
+    private final int WAITSECS = 60;
     private WebDriverWait wait;
     public WebDriver driver;
-    private Properties prop;
     private EventFiringWebDriver e_driver;
     private WebEventListener eventListener;
     private String url ="https://www.eurowings.com/en/information/at-the-airport/flight-status.html";
@@ -62,8 +61,8 @@ public class Driver {
         driver = e_driver;
         driver.manage().window().maximize();
         driver.manage().deleteAllCookies();
-        driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
-        driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
+        driver.manage().timeouts().pageLoadTimeout(WAITSECS, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(WAITSECS, TimeUnit.SECONDS);
         driver.get(url);
     }
 
@@ -108,6 +107,7 @@ public class Driver {
             element.click();
         }
     }
+
     // Method to enter text in any Text field
     public void enterText(WebElement element, String textToEnter) {
         if (waitForElementToBeClickable(element) != null) {
@@ -116,12 +116,14 @@ public class Driver {
         }
     }
 
-    // Method to enter text in any Text field
+    // Method to Select the value in the dropdown Menu
+    // Please note: Used JavaScript - The selected dropdown value willnot be displayed while execution
     public void selectDropDownByValue(WebElement element, String dropdownValue){
         JavascriptExecutor js = ((JavascriptExecutor) driver);
         js.executeScript("arguments[0].setAttribute('value','"+getDropdownValue(dropdownValue)+"');",element);
     }
 
+    // Method to get the value using Hashmap key
     private String getDropdownValue(String dropdownValue) {
         HashMap<String,String> hm = new HashMap<String, String>();
         hm.put("Today","date_today");
@@ -158,10 +160,10 @@ public class Driver {
         return element.isSelected();
     }
 
-    // Method to Wait for an element to clickable and return the webelement
+    // Method to wait for an element to be clickable and return the webelement
     private WebElement waitForElementToBeClickable(WebElement element) {
         try {
-            WebDriverWait wait = new WebDriverWait(driver, WAITSECS);
+            wait = new WebDriverWait(driver, WAITSECS);
             wait.until(ExpectedConditions.elementToBeClickable(element));
             return element;
         } catch (ElementNotInteractableException | NoSuchElementException elementnotvisible) {
@@ -171,7 +173,7 @@ public class Driver {
         }
     }
 
-    // Method to take print screen
+    // Method to take screen capture
     public void takeScreenshot() {
         File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
         try {
@@ -183,6 +185,7 @@ public class Driver {
         }
     }
 
+    // Method to get system date
     public String getDateValue(String date){
         if(date.equals("Today")){
             return (returnFormatedDate(0));
@@ -201,6 +204,7 @@ public class Driver {
         }
     }
 
+    // Method to format the date
     private String returnFormatedDate(int noOfDays){
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DAY_OF_YEAR,noOfDays);
@@ -209,6 +213,7 @@ public class Driver {
         return (dateformat.format(sysdate));
     }
 
+    // Method for hard wait
     public void waitSeconds(int seconds){
         try{
             Thread.sleep(seconds*1000);
