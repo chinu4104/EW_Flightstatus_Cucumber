@@ -25,6 +25,14 @@ mvn clean test
 ## Test results
 Cucumber HTML report (under projectfolder/cucumber-html-report/index.html)
 
+Passed scenario
+
+![Image of passed scenario](/images/Passed.png)
+
+Failed scenario
+
+![Image of Failed scenario](/images/Failed.png)
+
 ## Tested Environment
 * OS 
   * Windows
