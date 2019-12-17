@@ -25,11 +25,11 @@ mvn clean test
 ## Test results
 Cucumber HTML report (under projectfolder/cucumber-html-report/index.html)
 
-Passed scenario
+_**Passed scenario**_
 
 ![Image of passed scenario](/images/Passed.png)
 
-Failed scenario
+_**Failed scenario**_
 
 ![Image of Failed scenario](/images/Failed.png)
 
