@@ -16,6 +16,16 @@
 git clone git@github.com:chinu4104/EW_Flightstatus_Cucumber.git
 ```
 
+## Project Structure
+* /src/test/java/driver : Common reusable methods
+* /src/test/java/features : Feature file
+* /src/test/java/runner: Cucumber test runner 
+* /src/test/java/stepdefinitions: Step definitions using page object model
+* /driver_linux: chrome and firefox drivers for Linux
+* /driver_windows: chrome and firefox drivers for windows
+* /cucumber-html-report: Test execution report 
+* pom.xml : with all project dependencies and build plugins
+
 ## To test this project
 ```
 cd <<<project directory path>>>
