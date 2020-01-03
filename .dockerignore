@@ -1,0 +1,10 @@
+.idea
+target
+cucumber-html-report
+images
+.git
+.dockerignore
+dockerfile
+EW_testautomation.iml
+.gitignore
+README.md

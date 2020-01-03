@@ -22,7 +22,10 @@ public class SearchFlights extends Driver {
     private String timeStampBeforeUpdate = null,timeStampAfterUpdate = null;
 
     @Given("^user opens flight status page in \"(.*)\"$")
-    public void openApp(String browser) { launchUrl(browser); }
+    public void openApp(String browser) {
+        launchurlGrid();
+        //launchUrl(browser);
+        }
 
     @Then("^user verifies the flight status page title - \"(.*)\"$")
     public void verifyPageTitle(String title){

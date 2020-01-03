@@ -1,0 +1,36 @@
+version: '3'
+services:
+    ew-selenium-hub:
+        image: 'selenium/hub'
+        ports: 
+            - "4444:4444"
+    ew-selenium-node-chrome:
+        image: 'selenium/node-chrome-debug'
+        depends_on:
+            - ew-selenium-hub
+        ports:
+            - "5900:5900"
+        environment:
+            - HUB_HOST=ew-selenium-hub
+            - HUB_PORT=4444
+            - SCREEN_WIDTH=1360
+            - SCREEN_HEIGHT=1020
+            - "JAVA_OPTS=-Xmx1024m"
+        
+    ew-selenium-node-firefox:
+        image: 'selenium/node-firefox'
+        #shm_size: 2gb
+        depends_on:
+            - ew-selenium-hub
+        environment:
+            - HUB_HOST=ew-selenium-hub
+            - HUB_PORT=4444
+            - SCREEN_WIDTH=1360
+            - SCREEN_HEIGHT=1020
+            - "JAVA_OPTS=-Xmx1024m"
+        
+    ewflightstatus:
+        build: .
+        depends_on:
+            - ew-selenium-node-chrome
+            - ew-selenium-node-firefox

@@ -10,12 +10,14 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.events.EventFiringWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.junit.Assert;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.DateFormat;
-import java.text.FieldPosition;
-import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.NoSuchElementException;
@@ -59,6 +61,28 @@ public class Driver {
         eventListener = new WebEventListener();
         e_driver.register(eventListener);
         driver = e_driver;
+        driver.manage().window().maximize();
+        driver.manage().deleteAllCookies();
+        driver.manage().timeouts().pageLoadTimeout(WAITSECS, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(WAITSECS, TimeUnit.SECONDS);
+        driver.get(url);
+    }
+
+    //Selenium hub
+    public void launchurlGrid() {
+        String hubUrl = "http://ew-selenium-hub:4444/wd/hub/";
+        DesiredCapabilities descap = new DesiredCapabilities();
+        //if () else ()
+        descap.setBrowserName("chrome");
+        descap.setPlatform(Platform.LINUX);
+        ChromeOptions chromeopt = new ChromeOptions();
+        chromeopt.merge(descap);
+        //WebDriver driver = null;
+        try {
+            driver = new RemoteWebDriver(new URL(hubUrl),chromeopt);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
         driver.manage().window().maximize();
         driver.manage().deleteAllCookies();
         driver.manage().timeouts().pageLoadTimeout(WAITSECS, TimeUnit.SECONDS);
